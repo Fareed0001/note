@@ -1,0 +1,33 @@
+<%- include("header") -%>
+
+<body>
+
+  <div class="box" id="heading">
+    <h1 class="header"> <%= listTitle %> </h1>
+    <!-- listTitle is the name of the page and is rendered in the root route in app.js -->
+  </div>
+
+  <div class="box">
+
+    <% newListItems.forEach(function(item) { %>
+    <!-- newListItems is the name we are rendering the foundItems to into the root route in app.js -->
+
+    <form class="" action="/delete" method="post"> <!-- To be able to send data when the checkbox is clicked, we need a form to send it to our backend. /delete would be responsible for deleting -->
+      <div class="item">
+         <input type="checkbox" name="checkbox" value="<%=item._id%>" onChange="this.form.submit()"> <!-- onChange="this.form.submit()" this code submits with the checkbox is checked -->
+         <!-- Each item has an id in the database so we are targetting the item checkbox using its id value -->
+        <p> <%= item.name %> </p> <!-- The .name will only show the name of the item instead of the entire mongoose document -->
+      </div>
+       <input type="hidden" name="listName" value="<%= listTitle %>"> <!-- The hidden field is not shown to the user, but the data is sent when the form is submitted --> <!-- The value is the Title of the list and the name is listName. these are set so that it can be atrgetted at the backend -->
+       <!-- NB: DO NOT USE THE HIDDEN FIELD AS A FORM OF SECURITY -->
+    </form>
+      <% }); %>
+
+    <form class="item" action="/" method="post"> <!-- This post the form data to our root route -->
+      <input type="text" name="newItem" placeholder="New Input" autocomplete="off" autofocus>
+      <button type="submit" name="list" value="<%= listTitle %>">+</button> <!-- When you have the type='submit', it submits the data to the form. The value is the current list its on -->
+    </form>
+  </div>
+
+</body>
+<%- include("footer") -%>
